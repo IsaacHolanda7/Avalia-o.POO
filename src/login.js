@@ -6,10 +6,10 @@ const log_router = Router()
 log_router.post("/login", (req, res) => {
     const {NOVO_CLIENTE, horario} = req.body;
 
-    conn.query(`SELECT * FROM tabela WHERE novas_reservas = '${NOVO_CLIENTE}' AND coluna.senha = '${horario}'`, (err, result) => {
+    conn.query(`SELECT * FROM novo_cliente WHERE Novo_Cliente = '${NOVO_CLIENTE}' AND Dia_reservado = '${horario}'`, (err, result) => {
         if(err){
             return res.json({
-                Erro: ";,.jbkouhb" + err.message   
+                Erro: "erro na conexão ao bd" + err.message   
             })
         }
         res.json(result)
