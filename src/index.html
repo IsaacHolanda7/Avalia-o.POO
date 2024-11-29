@@ -1,11 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Reserva de Barbearia</title>
 </head>
 <body>
-    
+    <h1>Reservas de Barbearia</h1>
+
+    <h2>Criar Reserva</h2>
+    <form id="form-reserva">
+        <input type="text" id="nome_cliente" placeholder="Nome do Cliente" required>
+        <input type="text" id="telefone" placeholder="Telefone" required>
+        <input type="datetime-local" id="data_reserva" required>
+        <input type="text" id="serviço" placeholder="Serviço" required>
+        <button type="submit">Reservar</button>
+    </form>
+
+    <h2>Reservas Atuais</h2>
+    <ul id="reservas-lista"></ul>
+
+    <script src="teste.js"></script>
 </body>
 </html>
