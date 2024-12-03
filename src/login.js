@@ -8,7 +8,7 @@ log_router.post("/login", (req, res) => {
 
     conn.query(`SELECT * FROM novo_cliente WHERE nome = '${NOVO_CLIENTE}' AND Endereco = '${endereco}'`, (err, result) => {
         if(err){
-            return res.json({
+            return req.json({
                 Erro: "erro na conexão ao bd" + err.message   
             })
         }   
@@ -38,9 +38,22 @@ log_router.delete("/cliente", (req,res) => {
                 Erro: "erro na conexão ao bd" + err.message   
             })
         }   
-        result.json({
+        res.json({
             sucesso: "texto"
         })
+    })
+})
+
+log_router.post("/horario", (req, res) => {
+    const {NOME_CLIENTE, datahora} = req.body;
+
+    conn.query(`insert into novas_reservas (nome_cliente, Dia_reservado) values ('${NOME_CLIENTE}', '${datahora})'`,(err, result)=>{
+        if(err){
+            return req.json({
+                Erro: "erro na conexão ao bd" + err.message   
+            })
+        }   
+        res.json(result)
     })
 })
 
