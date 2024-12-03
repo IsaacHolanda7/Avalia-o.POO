@@ -15,6 +15,7 @@ log_router.post("/login", (req, res) => {
         res.json(result)
     })
 })
+
 log_router.post("/cliente",(req,res)=>{
     const{nome, cpf, endereco} = req.body;
 
@@ -27,5 +28,26 @@ log_router.post("/cliente",(req,res)=>{
         res.json("Cliente registrado")
     })
 })
+
+log_router.delete("/cliente", (req,res) => {
+    const {id_clente} = req.body
+
+    conn.query(`delete from novo_cliente where id_clente = '${id_clente}'`, (err,result) => {
+        if(err){
+            return res.json({
+                Erro: "erro na conexão ao bd" + err.message   
+            })
+        }   
+        result.json({
+            sucesso: "texto"
+        })
+    })
+})
+
+// log_router.put("/cliente", (req,res) => {
+//     const {novo_nome, novo_CPF, novo_Endereco, id_clente} = req.body
+
+//     conn.query(`update partidas set novo_cliente nome = '${novo_nome}', CPF = '${novo_CPF}', Endereco ='${novo_Endereco}' where `)
+// })
+
 export {log_router}
-// INSERT INTO `novo_cliente` (`Novo cliente`, `CPF`, `Endereço`) VALUES ('Gabriel', '1234567890', 'ri do pexe'), ('livis', '0987654321', 'mata fresca');
