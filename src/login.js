@@ -46,7 +46,6 @@ log_router.delete("/cliente", (req,res) => {
 
 log_router.post("/horario", (req, res) => {
     const {NOME_CLIENTE, datahora} = req.body;
-
     conn.query(`insert into novas_reservas (nome_cliente, Dia_reservado) values ('${NOME_CLIENTE}', '${datahora})'`,(err, result)=>{
         if(err){
             return req.json({
@@ -64,3 +63,4 @@ log_router.post("/horario", (req, res) => {
 // })
 
 export {log_router}
+// hfdtfkjhuyfmnvhryes
