@@ -3,64 +3,79 @@ import { conn } from "./mysql.js";
 
 const log_router = Router()
 
-log_router.post("/login", (req, res) => {
-    const {NOVO_CLIENTE, endereco} = req.body;
+// TABELA novo_cliente
 
-    conn.query(`SELECT * FROM novo_cliente WHERE nome = '${NOVO_CLIENTE}' AND Endereco = '${endereco}'`, (err, result) => {
-        if(err){
+log_router.post("/cliente", (req, res) => {
+    const { nome, cpf, endereco } = req.body;
+
+    conn.query(`insert into novo_cliente (nome, cpf, endereco) values ('${nome}', '${cpf}', '${endereco}')`, (err, result) => {
+        if (err) {
             return req.json({
-                Erro: "erro na conexão ao bd" + err.message   
+                Erro: "erro na conexão ao bd" + err.message
             })
-        }   
-        res.json(result)
+        }
+        res.json("cliente registrado")
     })
 })
 
-log_router.post("/cliente",(req,res)=>{
-    const{nome, cpf, endereco} = req.body;
+log_router.delete("/cliente", (req, res) => {
+    const { id_cliente } = req.body
 
-    conn.query(`insert into novo_cliente (nome, CPF, Endereco) values ('${nome}', ${cpf}, '${endereco}')`,(err, result)=>{
-        if(err){
+    conn.query(`delete from novo_cliente where id_cliente = '${id_cliente}'`, (err, result) => {
+        if (err) {
             return res.json({
-                Erro: "erro na conexão ao bd" + err.message   
+                Erro: "erro na conexão ao bd: " + err.message
             })
-        }   
-        res.json("Cliente registrado")
-    })
-})
-
-log_router.delete("/cliente", (req,res) => {
-    const {id_clente} = req.body
-
-    conn.query(`delete from novo_cliente where id_clente = '${id_clente}'`, (err,result) => {
-        if(err){
-            return res.json({
-                Erro: "erro na conexão ao bd" + err.message   
-            })
-        }   
+        }
         res.json({
-            sucesso: "texto"
+            sucesso: "cliente deletado"
         })
     })
 })
 
-log_router.post("/horario", (req, res) => {
-    const {NOME_CLIENTE, datahora} = req.body;
-    conn.query(`insert into novas_reservas (nome_cliente, Dia_reservado) values ('${NOME_CLIENTE}', '${datahora})'`,(err, result)=>{
-        if(err){
-            return req.json({
-                Erro: "erro na conexão ao bd" + err.message   
+log_router.put("/cliente", (req, res) => {
+    const { id, novonome, novocpf, novoendereco } = req.body;
+    conn.query(`update novo_cliente set nome='${novonome}', cpf='${novocpf}', endereco='${novoendereco}'
+        where id_cliente=${id}`, (err, result) => {
+        if (err) {
+            return res.json({
+                Erro: "erro na conexão ao bd" + err.message
             })
-        }   
-        res.json(result)
+        }
+        res.json("cliente atuaizado")
     })
 })
 
-// log_router.put("/cliente", (req,res) => {
-//     const {novo_nome, novo_CPF, novo_Endereco, id_clente} = req.body
 
-//     conn.query(`update partidas set novo_cliente nome = '${novo_nome}', CPF = '${novo_CPF}', Endereco ='${novo_Endereco}' where `)
-// })
 
-export {log_router}
-// hfdtfkjhuyfmnvhryes
+// TABELA novas_reservas
+
+
+
+log_router.post("/horario", (req, res) => {
+    const { nome_cliente, data, hora } = req.body;
+    conn.query(`insert into novas_reservas (nome_cliente, Dia_reservado, hora) values ('${nome_cliente}', '${data}', '${hora}')`, (err, result) => {
+        if (err) {
+            return res.json({
+                Erro: "erro na conexão ao bd" + err.message
+            })
+        }
+        res.json("horario reservado")
+    })
+})
+log_router.delete("/horario", (req, res) => {
+    const { id_hora } = req.body
+
+    conn.query(`delete from novas_reservas where id_hora = '${id_hora}'`, (err, result) => {
+        if (err) {
+            return res.json({
+                Erro: "erro na conexão ao bd: " + err.message
+            })
+        }
+        res.json({
+            sucesso: "horario cancelado"
+        })
+    })
+})
+
+export { log_router }
