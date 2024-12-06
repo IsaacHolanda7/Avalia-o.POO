@@ -3,7 +3,11 @@ import { conn } from "./mysql.js";
 
 const log_router = Router()
 
+
+
 // TABELA novo_cliente
+
+
 
 log_router.post("/cliente", (req, res) => {
     const { nome, cpf, endereco } = req.body;
@@ -46,6 +50,15 @@ log_router.put("/cliente", (req, res) => {
     })
 })
 
+log_router.get("/cliente", (req, res) => {
+    conn.query("select * from novo_cliente", (err, result) => {
+        if (err) {
+            return res.json(err.message)
+        }
+        res.json(result)
+    })
+})
+
 
 
 // TABELA novas_reservas
@@ -63,6 +76,7 @@ log_router.post("/horario", (req, res) => {
         res.json("horario reservado")
     })
 })
+
 log_router.delete("/horario", (req, res) => {
     const { id_hora } = req.body
 
@@ -75,6 +89,27 @@ log_router.delete("/horario", (req, res) => {
         res.json({
             sucesso: "horario cancelado"
         })
+    })
+})
+
+log_router.put("/horario", (req, res) => {
+    const { id, novonome, novodia, novahora } = req.body;
+    conn.query(`update novas_reservas set nome_cliente='${novonome}', Dia_reservado='${novodia}', hora='${novahora}' where id_hora=${id}`, (err, result) => {
+        if (err) {
+            return res.json({
+                Erro: "erro na conexão ao bd   " + err.message
+            })
+        }
+        res.json("horario atuaizado")
+    })
+})
+
+log_router.get("/horario", (req, res) => {
+    conn.query("select * from novas_reservas", (err, result) => {
+        if (err) {
+            return res.json(err.message)
+        }
+        res.json(result)
     })
 })
 
